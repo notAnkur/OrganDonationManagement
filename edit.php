@@ -8,14 +8,15 @@
   $id = $_GET['id'];
 
   $con = mysqli_connect("localhost", "root", "", "dbmsp");
+
   if(mysqli_connect_errno()) {
     echo "Error connecting to MySQL " . mysqli_connect_error();
   }
 
   $search_id_sql = mysqli_query($con, "SELECT * FROM donors WHERE id=$id");
-  if(mysqli_num_rows($search_id_sql) == 1) {
+  if(mysqli_num_rows($search_id_sql) > 0) {
     $row = mysqli_fetch_assoc($search_id_sql);
-    $name = $row['name'];
+    $name = $row['donor_name'];
     $age = $row['age'];
     $gender = $row['gender'];
     $blood_type = $row['blood_type'];
@@ -23,6 +24,34 @@
     $last_donation_date = $row['last_donation_date'];
     $contact = $row['contact'];
   }
+
+  if(isset($_POST['editBtn'])) {
+    $name = $_POST['name'];
+    $age = $_POST['age'];
+    $gender = $_POST['gender'];
+    $blood_type = $_POST['blood_type'];
+    $previous_history = $_POST['previous_history'];
+    $last_donation_date = $_POST['last_donation_date'];
+    $contact = $_POST['contact'];
+
+    //adjust date format
+    $newLastDonationDate = date("Y-m-d", strtotime($last_donation_date));
+
+    $edit_sql = "UPDATE donors SET donor_name='$name', age='$age', gender='$gender', blood_type='$blood_type', previous_history='$previous_history', last_donation_date='$newLastDonationDate', contact='$contact' WHERE id='$id'";
+
+    if(mysqli_query($con, $edit_sql)) {
+      echo '<script type="text/javascript">';
+      echo "alert('Updated record for $name');";
+      echo 'window.location.href = "admin.php";';
+      echo '</script>';
+    } else {
+      echo "not done" . mysqli_error($con);
+    }
+
+  }
+
+  mysqli_close($con);
+
 ?>
 
 
@@ -43,7 +72,7 @@
     </nav>
 
     <div class="container my-5" style="max-width: 500px;">
-      <form action="index.php" method="post">
+      <form method="post">
         <h4 style="text-align: center;" class="mb-4">Edit Details</h4><hr>
         <div class="form-group">
           <label for="inputId">ID</label>
@@ -63,7 +92,7 @@
         </div>
         <div class="form-group">
           <label for="inputBType">Blood Type</label>
-          <input name="btypt" type="text" class="form-control" value=<?= $blood_type ?> id="inputBType" aria-describedby="bloodtypeHelp">
+          <input name="blood_type" type="text" class="form-control" value=<?= $blood_type ?> id="inputBType" aria-describedby="bloodtypeHelp">
         </div>
         <div class="form-group">
           <label for="inputPrevHistory">Previous History</label>

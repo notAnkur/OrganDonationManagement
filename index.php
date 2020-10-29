@@ -4,6 +4,7 @@
   if(isset($_POST['loginBtn'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
+    
     $con = mysqli_connect("localhost", "root", "", "dbmsp");
 
     $email = stripcslashes($email);
@@ -50,8 +51,8 @@
     <div class="w3-display-middle" style="text-align: center;">
       <h1 class="w3-jumbo w3-animate-top">Blood Donation Management Portal</h1><br>
       <hr class="w3-border-grey" style="margin:auto;width:40%"><br>
-      <p class="w3-xlarge w3-center" style="margin-bottom: 0;">Built by: Team 6</p>
-      <p class="w3-xlarge w3-center" style="margin-top: 0;">Ankur Anant || </p><br>
+      <p class="w3-xlarge w3-center mb-1" style="margin-bottom: 0; border-style: dotted; background-color: rgba(1, 1, 1, 0.6);">Built by: Team 6</p>
+      <p class="w3-xlarge w3-center" style="margin-top: 0; border-style: dotted; background-color: rgba(1, 1, 1, 0.6);">Ankur Anant | Sai Kiran | Ayush</p><br>
       <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#exampleModal">Login</button>
     </div>
   </div>
